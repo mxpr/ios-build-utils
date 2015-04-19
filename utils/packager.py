@@ -1,7 +1,7 @@
 
 import os
 import shutil
-import zipfile
+import subprocess
 
 from tempdirectory import TempDirectory
 
@@ -89,10 +89,6 @@ class Packager:
 
 
     def __zipdir(self, path, zip_path):
-        with zipfile.ZipFile(zip_path, 'w') as zip:
-            for root, dirs, files in os.walk(path):
-                for file in files:
-                    full_path = os.path.join(root, file)
-                    sub_path = full_path[len(path):]
-                    zip.write(full_path, arcname=sub_path, compress_type=zipfile.ZIP_DEFLATED)
+        command = ["zip","-qr", zip_path, "."]
+        subprocess.check_call(command, cwd=path)
 
