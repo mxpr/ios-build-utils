@@ -17,6 +17,6 @@ p.package()
 
 This Produces a zip file with
 
--package.zip
+- package.zip
   - file
   - another/file
