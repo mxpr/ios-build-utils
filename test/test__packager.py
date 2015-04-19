@@ -99,10 +99,14 @@ class PackagerTest(unittest.TestCase):
             self.assertTrue(os.path.exists(package_file))
             
             package_contents = self.__packageContents(package_file)
-
-            self.assertEqual(4, len(package_contents))
+            
+            self.assertEqual(7, len(package_contents))
+            self.assertIn("file1", package_contents)
+            self.assertIn("directory1/", package_contents)
+            self.assertIn("directory2/", package_contents)
             self.assertIn("directory1/file1", package_contents)
             self.assertIn("directory2/file1", package_contents)
+            self.assertIn("directory2/subdir1/", package_contents)
             self.assertIn("directory2/subdir1/file1", package_contents)
 
     def test_adding_directories(self):
@@ -123,7 +127,8 @@ class PackagerTest(unittest.TestCase):
             
             package_contents = self.__packageContents(package_file)
             
-            self.assertEqual(1, len(package_contents))
+            self.assertEqual(2, len(package_contents))
+            self.assertIn("dir1/", package_contents)
             self.assertIn("dir1/file1", package_contents)
 
 
