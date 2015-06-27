@@ -18,8 +18,8 @@ class TempDirectory:
             shutil.move(file2, file1)
             shutil.move(file1, temp_file)
     """
-    def __init__(self):
-        self.path = tempfile.mkdtemp()
+    def __init__(self, location=None):
+        self.path = tempfile.mkdtemp(dir=location)
 
     def __cleanup(self):
         shutil.rmtree(self.path, ignore_errors=True)

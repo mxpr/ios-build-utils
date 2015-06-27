@@ -131,9 +131,25 @@ class PackagerTest(unittest.TestCase):
             self.assertIn("dir1/", package_contents)
             self.assertIn("dir1/file1", package_contents)
 
+    def test_relative_paths(self):
+        with TempDirectory(os.getcwd()) as tempdir:
+
+            relative_path = os.path.basename(tempdir)
+            package_file = os.path.join(relative_path,"package.zip")
+            
+            p = Packager(package_file)
+
+            self.assertFalse(os.path.exists(package_file))
+
+            p.add(self.__makeFile(tempdir,"file1"))
+            p.package()  
+
+            self.assertTrue(os.path.exists(package_file))
+            self.assertIn("file1", self.__packageContents(package_file))
+
+
 
 
 if __name__ == '__main__':
-    print __file__
     unittest.main()
 
