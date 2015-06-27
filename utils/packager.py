@@ -89,6 +89,10 @@ class Packager:
 
 
     def __zipdir(self, path, zip_path):
+        
+        if not os.path.isabs(zip_path):
+            zip_path = os.path.join(os.getcwd(), zip_path)
+
         command = ["zip","-qr", zip_path, "."]
         subprocess.check_call(command, cwd=path)
 
