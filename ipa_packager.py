@@ -1,7 +1,7 @@
 
 from utils.packager import Packager
 
-import os
+import os, sys, getopt
 
 class IpaPackager():
     """
@@ -11,11 +11,11 @@ class IpaPackager():
         path_to_app: path to the .app file to be packaged 
         path_to_ipa: the output path to place the .ipa file
 
-    Usage:
+    Usage as a module:
 
         ipa = IpaPackager("/path/to/MyApp.app","/output/path/MyApp.ipa")
         ipa.package()
-
+	
     """
     def __init__(self, path_to_app, path_to_ipa, developer_dir = None):
 
@@ -74,3 +74,28 @@ class IpaPackager():
             ipa.add(lib_path, "SwiftSupport/%s" % os.path.basename(lib))
 
         ipa.package()
+
+def main(argv):
+    inputfile = ''
+    outputfile = ''
+    try:
+        opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
+    except getopt.GetoptError:
+        print 'python ipa_packager.py -i <AppBundle.app> -o <AppIPA.ipa>'
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print 'python ipa_packager.py -i <AppBundle.app> -o <AppIPA.ipa>'
+            sys.exit()
+        elif opt in ("-i", "--ifile"):
+            inputfile = arg
+        elif opt in ("-o", "--ofile"):
+            outputfile = arg
+         
+    ipa = IpaPackager(inputfile,outputfile)
+    ipa.package()
+
+if __name__ == "__main__":
+   main(sys.argv[1:])
+
+
