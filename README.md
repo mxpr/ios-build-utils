@@ -42,3 +42,12 @@ This Produces a zip file with
 - package.zip
   - file
   - another/file
+
+
+# Running the tests
+
+There are a few tests which can be run using:
+
+```
+python -m unittest discover test
+```
