@@ -75,23 +75,29 @@ class IpaPackager():
 
         ipa.package()
 
+def usage():
+    print '\npython ipa_packager.py -i pathToBundle -o pathToIPA\n'
+    sys.exit()
+
 def main(argv):
     inputfile = ''
     outputfile = ''
     try:
         opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
     except getopt.GetoptError:
-        print 'python ipa_packager.py -i <AppBundle.app> -o <AppIPA.ipa>'
-        sys.exit(2)
+        usage()
     for opt, arg in opts:
         if opt == '-h':
-            print 'python ipa_packager.py -i <AppBundle.app> -o <AppIPA.ipa>'
-            sys.exit()
+            usage()
         elif opt in ("-i", "--ifile"):
             inputfile = arg
         elif opt in ("-o", "--ofile"):
             outputfile = arg
-         
+    
+    if outputfile == '' or inputfile == '':
+        usage()
+        
+    
     ipa = IpaPackager(inputfile,outputfile)
     ipa.package()
 
