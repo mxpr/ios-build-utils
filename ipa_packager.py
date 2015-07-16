@@ -46,11 +46,14 @@ class IpaPackager():
 
     def __swift_libs_to_copy(self):
 
-        app_swift_libs = self.__filtered_swift_libs(os.listdir(self.frameworks_path))
-        os_swift_libs = self.__filtered_swift_libs(os.listdir(self.os_libs_path))
+        libs_to_copy = []
 
-        # We only need the swift libraries in use by the app
-        libs_to_copy = set(app_swift_libs).intersection(set(os_swift_libs))
+        if os.path.exists(self.frameworks_path):
+            app_swift_libs = self.__filtered_swift_libs(os.listdir(self.frameworks_path))
+            os_swift_libs = self.__filtered_swift_libs(os.listdir(self.os_libs_path))
+
+            # We only need the swift libraries in use by the app
+            libs_to_copy = set(app_swift_libs).intersection(set(os_swift_libs))
 
         return libs_to_copy
 
