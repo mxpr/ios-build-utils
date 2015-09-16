@@ -32,14 +32,22 @@ class IpaPackager():
             self.developer_dir = os.environ["DEVELOPER_DIR"]
 
         self.os_libs_path = os.path.join(self.developer_dir, "Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/")
-        self.watchkit_binary = os.path.join(self.developer_dir, "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/Library/Application Support/WatchKit/WK")
+        self.watchkit_support_binary = os.path.join(self.developer_dir, "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/Library/Application Support/WatchKit/WK")
+        self.watchkit2_support_binary = os.path.join(self.developer_dir, "Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/Library/Application Support/WatchKit/WK")
 
-    def __should_include_watchkit(self):
+    def __should_include_watchkit_support(self):
 
         extension_path = os.path.join(self.app_path,"Plugins","%s WatchKit Extension.appex" % self.app_name)
         extension_exists = os.path.exists(extension_path)
 
         return extension_exists
+
+    def __should_include_watchkit2_support(self):
+
+        watch_folder = os.path.join(self.app_path,"Watch")
+        watch_folder_exists = os.path.exists(watch_folder)
+
+        return watch_folder_exists
 
     def __filtered_swift_libs(self, libs):
         return [ lib for lib in libs if lib.startswith("libswift") ]
@@ -65,9 +73,13 @@ class IpaPackager():
         # Include App
         ipa.add(self.app_path,"Payload/%s.app" % self.app_name)
 
-        # Include WatchKit Binary
-        if self.__should_include_watchkit():
-            ipa.add(self.watchkit_binary, "WatchKitSupport/WK")
+        # Include WatchKit Binary if needed
+        if self.__should_include_watchkit_support():
+            ipa.add(self.watchkit_support_binary, "WatchKitSupport/WK")
+
+        # Include watchOS 2 WatchKit Binary if needed
+        if self.__should_include_watchkit2_support():
+            ipa.add(self.watchkit2_support_binary, "WatchKitSupport2/WK")
         
         # Include Swift Libraries
         swift_libs_to_include = self.__swift_libs_to_copy()
