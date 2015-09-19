@@ -18,7 +18,7 @@ python ipa_packager.py -i <AppBundle.app> -o <AppIPA.ipa>
 ```
 This will produce `MyApp.ipa` which bundles `MyApp.app` and the appropriate files for `SwiftSupport` and `WatchKitSupport` as needed.
 
-For example if MyApp was written in swift and included a Watch app, the contents of the ipa file will be
+For example if MyApp was written in swift, included a WatchKit app, and a watchOS 2 app, the contents of the ipa file will be
 
 - MyApp.ipa
   - Payload/MyApp.app
@@ -27,6 +27,8 @@ For example if MyApp was written in swift and included a Watch app, the contents
     - ....
   - WatchKitSupport
     - WK 
+  - WatchKitSupport2
+    - WK
 
 # Packager
 
