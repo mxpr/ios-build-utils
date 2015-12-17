@@ -3,6 +3,8 @@ iOS Build Utility Scripts
 
 # ipa Packager
 
+**NOTE:** This utility is available for reference purposes - As of Xcode 7 the recommended way to package applications is via `xcodebuild`. See [this blog post](http://www.matrixprojects.net/p/xcodebuild-export-options-plist) for reference. 
+
 Usage:
 
 ```
